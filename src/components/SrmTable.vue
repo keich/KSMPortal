@@ -9,28 +9,32 @@ const props = defineProps({
 	itemId: {
 		type: String,
 		required: true
+	},
+	up: {
+		type: Boolean,
+		required: false,
+		default: false
 	}
 })
 
-function loadItems(itemId: String) {
-	ItemRepository.getChildren(itemId, ['id', 'name','status'])
-			.then(data => {
+function loadItems(itemId: String, up: Boolean) {
+	const req = up ? ItemRepository.getParents(itemId, ['id', 'name','status']) : ItemRepository.getChildren(itemId, ['id', 'name','status'])
+	req.then(data => {
 				return data.sort((a,b) => {
 					return a.name.localeCompare(b.name)
 				})
 			})
 			.then(data => {
 				items.value = data
-				console.log(data)
 			})	
 }
 
 onMounted(() => {
-	loadItems(props.itemId)
+	loadItems(props.itemId, props.up)
 })
 	
 watch(() => props.itemId, (first, second) => {
-  loadItems(props.itemId)
+  loadItems(props.itemId, props.up)
 })
 
 </script>

@@ -7,12 +7,11 @@ const host = import.meta.env.VITE_API_HOST
 dayjs.extend(relativeTime)
 
 
-function getChildren(id: String, parametrs: string[]): Promise<IItem[]> {
-	let url = new URL(host + '/item/' + id + '/children');
+function getItems(direct: string, id: String, parametrs: string[]): Promise<IItem[]> {
+	let url = new URL(host + '/item/' + id + direct);
 	parametrs.forEach(param => {
 		url.searchParams.append('property', param);
 	})
-	console.log(url)
 	return fetch(url)
 			.then(response => {
 				if(!response.ok){
@@ -25,6 +24,14 @@ function getChildren(id: String, parametrs: string[]): Promise<IItem[]> {
 			})
 }
 
+function getChildren(id: String, parametrs: string[]): Promise<IItem[]> {
+	return getItems('/children', id, parametrs)
+}
+
+function getParents(id: String, parametrs: string[]): Promise<IItem[]> {
+	return getItems('/parents', id, parametrs)
+}
+
 export default {
-	getChildren
+	getChildren, getParents
 }

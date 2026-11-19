@@ -24,7 +24,7 @@ const resizeLeftHorizontal = ({ prevPane }) => {
 					<SrmTable itemId="1" title="Дочерние объекты"/>
 				</pane>
 				<pane  style="min-height: 5%;">
-					<SrmTable itemId="OI-551CD0FD6E0B487583A8C1B4DD8CEBDF" title="Родительские объекты"/>
+					<SrmTable :up="true" itemId="1" title="Родительские объекты"/>
 				</pane>
 			</splitpanes>
 		</pane>
